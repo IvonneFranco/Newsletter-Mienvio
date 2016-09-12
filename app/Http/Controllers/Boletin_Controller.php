@@ -19,6 +19,10 @@ class Boletin_Controller extends Controller
      */
     public function index()
     {
+        $users=Usuario::wherehas('roles',function($query){
+            $query->where('descripcion','cliente');
+        })->get();
+        return view('cliente/boletin',compact('users'));
 
     }
 }
