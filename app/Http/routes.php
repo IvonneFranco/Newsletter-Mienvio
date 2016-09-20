@@ -25,11 +25,18 @@ Route::get('register',[
     'uses'=>'UsuarioController@getRegister',
     'as'=>'register']);
 Route::post('register','UsuarioController@store');
+Route::put('cliente/boletin','ClientesController@traerclientes');
 
+Route::get('generaboletin/enviarboletin','Boletin_Controller@enviarboletin');
+Route::put('generaboletin/enviarboletin','Boletin_Controller@store');
+Route::get('baja-boletin/{codigo}','ClientesController@bajaboletin');
+Route::put('confirma-baja-boletin/{codigo}','ClientesController@confirmarbaja');
 
 
  Route::group(['middleware'=>'crearRol:admin'],function(){
      Route::get('cliente','Boletin_Controller@index');
+     Route::get('boletin','Boletin_Controller@crearboletin');
+
     });
 
 

@@ -3,27 +3,7 @@
 <div class="container">
     <link rel="stylesheet" href="{{ URL::asset('css/email.css') }}" />
     <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'>
-   <header>
-       <script type="text/javascript">
-           function marcar(source)
-           {
-               //obtenemos todos los controles del tipo Input
-               checkboxes=document.getElementsByTagName('input');
-               //recoremos todos los controles
-               for(i=0;i<checkboxes.length;i++)
-               {
-                   //solo si es un checkbox entramos
-                   if(checkboxes[i].type == "checkbox")
-                   {
-                       //si es un checkbox le damos el valor del checkbox que lo llamó (Marcar/Desmarcar Todos)
-                       checkboxes[i].checked=source.checked;
-
-                   }
-               }
-           }
-       </script>
-   </header>
-    <div class="mail-box">
+      <div class="mail-box">
         <aside class="sm-side">
             <div class="user-head">
                 <a class="inbox-avatar" href="javascript:;">
@@ -92,51 +72,19 @@
             </div>
             <ul class="inbox-nav inbox-divider">
                 <li class="active">
-                    <a href="#"><i class="fa fa-inbox"></i> clientes <span class="label label-danger pull-right"></span></a>
+                    <a href="{{url('cliente')}}"><i class="fa fa-inbox"></i> clientes <span class="label label-danger pull-right"></span></a>
 
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-envelope-o"></i> Enviar Boletín</a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-bookmark-o"></i> Crear Boletín</a>
-                </li>
-                <li>
-                    <a href="#"><i class=" fa fa-external-link"></i> Drafts <span class="label label-info pull-right"></span></a>
-                </li>
-                <li>
-                    <a href="#"><i class=" fa fa-trash-o"></i> Trash</a>
+                    <a href="{{url('boletin')}}"><i class="fa fa-bookmark-o"></i> Crear Boletín</a>
                 </li>
             </ul>
-
-            <div class="inbox-body text-center">
-                <div class="btn-group">
-                    <a class="btn mini btn-primary" href="javascript:;">
-                        <i class="fa fa-plus"></i>
-                    </a>
-                </div>
-                <div class="btn-group">
-                    <a class="btn mini btn-success" href="javascript:;">
-                        <i class="fa fa-phone"></i>
-                    </a>
-                </div>
-                <div class="btn-group">
-                    <a class="btn mini btn-info" href="javascript:;">
-                        <i class="fa fa-cog"></i>
-                    </a>
-                </div>
-            </div>
 
         </aside>
         <aside class="lg-side">
             <div class="inbox-head">
                 <h3>Inbox</h3>
-                <form action="#" class="pull-right position">
-                    <div class="input-append">
-                        <input type="text" class="sr-input" placeholder="Search Mail">
-                        <button class="btn sr-btn" type="button"><i class="fa fa-search"></i></button>
-                    </div>
-                </form>
+
             </div>
             <div class="inbox-body">
                 <div class="mail-option">
@@ -185,30 +133,68 @@
                         </li>
                     </ul>
                 </div>
-                <table class="table table-inbox table-hover">
-                    <tbody>
-                    <tr class="">
-                        <th class="inbox-small-cells">
-                        <th class="view-message">Clave </th>
-                        <th class="view-message">Nombre </th>
-                        <th class="view-message">Correo </th>
-                    </tr>
-                    @foreach ($users as $user)
-                        <tr>
-                            <td class="inbox-small-cells">
-                                <input type="checkbox" class="mail-checkbox">
-                            </td>
-                            <td class="view-message">{{ $user->idUsuario }}</td>
-                            <td class="view-message">{{ $user->nombre }}</td>
-                            <td class="view-message">{{ $user->email }}</td>
-                        </tr>
-                    @endforeach
+                <div>
+                     <form class="form-horizontal" role="form" method="POST" action="{{url('cliente/boletin')}}">
+                            {!! method_field('PUT') !!}
+                            {!! csrf_field() !!}
+                         <div class="form-group">
 
-                    </tbody>
-                </table>
+                             <label class="col-md-6 control-label">Asunto</label>
+                             <div class="col-md-6">
+                                 <input type="text" class="form-control" name="asunto" value="{{ old('asunto') }}">
+                             </div>
+
+
+                         </div>
+                         <br>
+
+                        <table class="table table-inbox table-hover">
+                            <tbody>
+                            <tr class="">
+                                <th class="inbox-small-cells">
+                                <th class="view-message">Clave </th>
+                                <th class="view-message">Nombre </th>
+                                <th class="view-message">Correo </th>
+                            </tr>
+                            @foreach ($users as $user)
+                                <tr>
+                                    <td class="inbox-small-cells">
+                                        <label>
+
+                                            <input type="checkbox" name="ch[]" value="{{ $user->registration_token }}">
+                                        </label>
+                                    </td>
+                                    <td class="view-message">{{ $user->idUsuario }}</td>
+                                    <td class="view-message">{{ $user->nombre }}</td>
+                                    <td class="view-message">{{ $user->email }}</td>
+                                </tr>
+                            @endforeach
+
+                            </tbody>
+                        </table>
+
+                         <div class="form-group">
+
+                             <div class="col-md-6">
+                                 <br>
+                                 <br>
+                                 <button type="submit" class="btn btn-primary">Enviar Boletín</button>
+                             </div>
+                         </div>
+
+
+                    </form>
+                </div>
+
             </div>
         </aside>
 
     </div>
 </div>
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="js/seleccionar.js"></script>
+<script src="js/main.js"></script>
+</body>
 @endsection

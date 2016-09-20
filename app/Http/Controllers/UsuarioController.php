@@ -70,10 +70,13 @@ class UsuarioController extends Controller
     {
         $data = $request;
         $user = new Usuario();
-        $user->nombre   = $data['nombre'];
-        $user->apellido = $data['apellido'];
-        $user->email    = $data['email'];
-        $user->password = bcrypt($data['password']);
+        $user->nombre             = $data['nombre'];
+        $user->apellido           = $data['apellido'];
+        $user->email              = $data['email'];
+        $user->password           = bcrypt($data['password']);
+        $user->email              = $data['email'];
+        $user->registration_token = str_random(48);
+        $user->status           = 'si';
 
         if ($user->save()) {
             return redirect('login');

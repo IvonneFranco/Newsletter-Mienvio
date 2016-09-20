@@ -17,7 +17,7 @@ class Usuario extends Model implements AuthenticatableContract, CanResetPassword
 
     protected $table = 'usuario';
     protected $primaryKey ='idUsuario';
-    protected $fillable = ['nombre', 'apellido', 'email', 'password'];
+    protected $fillable = ['nombre', 'apellido', 'email', 'password','status'];
 
     public function roles()
     {        //return $this->belongsToMany(Rol::class, UsuariosRoles::class);
